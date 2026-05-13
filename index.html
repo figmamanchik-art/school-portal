@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="control-panel">
+        <div class="theme-toggle" id="theme-btn" title="Сменить тему"></div>
+        <div class="home-btn" id="home-btn" title="На главную">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+        </div>
+    </div>
+    <div class="deck state-1" id="main-deck">
+        <h1 class="welcome-text screen-1">Добро пожаловать</h1>
+        <div class="auth-box screen-1">
+            <span class="link id-active" id="btn-register">Зарегистрироваться</span>
+            <span class="link id-active" id="btn-login">Авторизоваться</span>
+        </div>
+        <div class="info-notice screen-2">Запомните данные для входа, мы будем их использовать множество раз</div>
+        <div class="skip-hint screen-2">Для пропуска нажмите ПРОБЕЛ</div>
+        <h1 class="page-title screen-3" id="title-register">Регистрация ученика</h1>
+        <h1 class="page-title screen-3" id="title-login">Авторизация ученика</h1>
+        <div class="reg-form screen-3" id="reg-form">
+            <div class="input-group">
+                <label>Имя</label>
+                <input type="text" class="required-field" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label>Фамилия</label>
+                <input type="text" class="required-field" autocomplete="off">
+            </div>
+            <div class="input-group" id="group-class">
+                <label>Класс</label>
+                <div class="custom-select" id="custom-select">
+                    <div class="select-trigger">—</div>
+                    <div class="select-options">
+                        <div class="option" data-value="9">9 класс</div>
+                        <div class="option" data-value="10">10 класс</div>
+                        <div class="option" data-value="11">11 класс</div>
+                    </div>
+                    <input type="hidden" class="required-field" id="select-value" value="">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" class="required-field" autocomplete="off">
+            </div>
+            <button type="submit" class="submit-btn" id="submit-btn">Подтвердить</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

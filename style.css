@@ -1,0 +1,373 @@
+:root {
+    --bg: #050505;
+    --text-white: #fff;
+    --text-muted: #555555;
+    --text-label: #777777;
+    --text-notice: #888;
+    --text-hint: #303030;
+    --line-color: #1a1a1a;
+    --line-hover: #404040;
+    --line-focus: #888;
+    --select-bg: #09090b;
+    --option-hover: #131316;
+}
+
+body.light-theme {
+    --bg: #f9f9fb;
+    --text-white: #050505;
+    --text-muted: #b0b0b5;
+    --text-label: #666666;
+    --text-notice: #555;
+    --text-hint: #c0c0c5;
+    --line-color: #e5e5ea;
+    --line-hover: #b0b0b5;
+    --line-focus: #555;
+    --select-bg: #fff;
+    --option-hover: #f1f1f5;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    padding: 60px 20px;
+    transition: background 0.5s ease;
+}
+
+.control-panel {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+}
+
+.theme-toggle,
+.home-btn {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: filter 0.3s ease, background 0.3s ease;
+}
+
+.theme-toggle {
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+    background: transparent;
+}
+
+.theme-toggle:hover {
+    filter: brightness(0.6);
+}
+
+body.light-theme .theme-toggle {
+    background: #fff;
+}
+
+.home-btn {
+    color: #fff;
+}
+
+.home-btn:hover {
+    filter: brightness(0.6);
+}
+
+.home-btn svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.deck {
+    height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+}
+
+.welcome-text,
+.page-title {
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: color 0.5s;
+}
+
+.welcome-text {
+    color: var(--text-white);
+    animation: breathe 4s ease-in-out infinite alternate;
+}
+
+.page-title {
+    color: var(--text-white);
+}
+
+.auth-box,
+.info-notice,
+.reg-form {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+.auth-box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-left: 18px;
+    border-left: 1px solid var(--line-color);
+    text-align: left;
+    transition: border-color 0.3s;
+}
+
+.auth-box:hover {
+    border-color: var(--line-hover);
+}
+
+.link {
+    font-size: 15px;
+    letter-spacing: -0.2px;
+    color: var(--text-muted);
+    cursor: default;
+    user-select: none;
+    transition: color 0.3s;
+}
+
+.link.id-active {
+    cursor: pointer;
+}
+
+.link:hover {
+    color: var(--text-white);
+}
+
+.info-notice {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-notice);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    text-align: center;
+    width: 100%;
+    padding: 0 20px;
+    transition: color 0.5s;
+}
+
+.skip-hint {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    text-align: center;
+    transition: color 0.5s;
+}
+
+.reg-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 18px;
+    position: absolute;
+}
+
+.reg-form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 280px;
+    background-color: var(--line-color);
+    transition: height 0.3s ease, background-color 0.3s ease;
+}
+
+.deck.mode-login .reg-form::before {
+    height: 210px;
+}
+
+.reg-form:hover::before {
+    background-color: var(--line-hover);
+}
+
+.deck.form-ready .reg-form::before {
+    height: 100% !important;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-group label {
+    font-size: 12px;
+    color: var(--text-label);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.5s;
+}
+
+input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line-color);
+    color: var(--text-white);
+    padding: 6px 0;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s, color 0.5s;
+    border-radius: 0;
+    width: 100%;
+}
+
+input:focus {
+    border-color: var(--line-focus);
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+
+.select-trigger {
+    border-bottom: 1px solid var(--line-color);
+    color: var(--text-muted);
+    padding: 6px 0;
+    font-size: 15px;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+.custom-select.active .select-trigger {
+    border-color: var(--line-focus);
+    color: var(--text-white);
+}
+
+.select-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    background: var(--select-bg);
+    border: 1px solid var(--line-color);
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-5px);
+    transition: opacity 0.2s, transform 0.2s, background 0.5s, border-color 0.5s;
+    z-index: 10;
+}
+
+.custom-select.active .select-options {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.option {
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--text-notice);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.option:hover {
+    background: var(--option-hover);
+    color: var(--text-white);
+}
+
+.submit-btn {
+    background: transparent;
+    border: 1px solid var(--line-color);
+    color: var(--text-muted);
+    text-align: center;
+    padding: 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s, opacity 0.3s, transform 0.3s;
+    opacity: 0;
+    pointer-events: none;
+    width: 100%;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+    transform: translateY(-5px);
+}
+
+.submit-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.submit-btn:hover {
+    color: var(--text-white);
+    border-color: var(--line-hover);
+}
+
+.screen-1,
+.screen-2,
+.screen-3 {
+    opacity: 0 !important;
+    pointer-events: none;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.deck.state-1 .screen-1 {
+    opacity: 1 !important;
+    pointer-events: auto;
+}
+
+.deck.state-2 .screen-2 {
+    opacity: 1 !important;
+    pointer-events: auto;
+}
+
+.deck.state-3 .screen-3 {
+    opacity: 1 !important;
+    pointer-events: auto;
+}
+
+.deck.mode-register #title-login,
+.deck.mode-login #title-register,
+.deck.mode-login #group-class {
+    display: none !important;
+}
+
+@keyframes breathe {
+    0% {
+        filter: brightness(0.2);
+    }
+    100% {
+        filter: brightness(1);
+    }
+}
