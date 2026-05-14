@@ -103,7 +103,7 @@ document.addEventListener('click', () => {
     customSelect.classList.remove('active');
 });
 // Вставьте сюда вашу ссылку, которую выдал localtunnel (ОБЯЗАТЕЛЬНО БЕЗ слэша на конце)
-const BACKEND_URL = 'loca.lt'; 
+const BACKEND_URL = 'https://school-portal-admin.wstunnel.com'; 
 
 submitBtn.addEventListener('click', async (e) => {
     e.preventDefault(); // Отменяем стандартную перезагрузку страницы
