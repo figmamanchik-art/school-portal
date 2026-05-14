@@ -102,3 +102,64 @@ customSelect.querySelectorAll('.option').forEach(option => {
 document.addEventListener('click', () => {
     customSelect.classList.remove('active');
 });
+// Вставьте сюда вашу ссылку, которую выдал localtunnel (ОБЯЗАТЕЛЬНО БЕЗ слэша на конце)
+const BACKEND_URL = 'loca.lt'; 
+
+submitBtn.addEventListener('click', async (e) => {
+    e.preventDefault(); // Отменяем стандартную перезагрузку страницы
+    
+    // Блокируем кнопку, чтобы пользователь не кликал много раз
+    submitBtn.disabled = true;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Отправка на ПК...';
+
+    // Собираем данные из инпутов (ищем по тексту в label)
+    const inputGroups = form.querySelectorAll('.input-group');
+    let userData = {
+        mode: deck.classList.contains('mode-login') ? 'Авторизация' : 'Регистрация',
+        name: '-',
+        surname: '-',
+        student_class: hiddenInput.value || '-', // Отправляем в Python как student_class
+        password: '-'
+    };
+
+    inputGroups.forEach(group => {
+        const label = group.querySelector('label');
+        const input = group.querySelector('input:not([type="hidden"])');
+        if (!label || !input) return;
+        
+        const labelText = label.textContent.toLowerCase();
+        if (labelText.includes('имя')) userData.name = input.value.trim();
+        if (labelText.includes('фамилия')) userData.surname = input.value.trim();
+        if (labelText.includes('пароль')) userData.password = input.value.trim();
+    });
+
+    try {
+        // Отправляем сетевой POST-запрос на ваш Python
+        const response = await fetch(`${BACKEND_URL}/api/save`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify(userData) // Превращаем объект в строку JSON
+        });
+
+        if (!response.ok) {
+            throw new Error(`Ошибка сервера: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        // Если Python успешно сохранил данные
+        alert(result.message); 
+        homeBtn.click(); // Возвращаем интерфейс на главную
+        
+    } catch (err) {
+        console.error(err);
+        alert('Не удалось связаться с Python-сервером: ' + err.message);
+    } finally {
+        // Возвращаем кнопку в исходное состояние
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    }
+});
