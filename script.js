@@ -13,7 +13,7 @@ let timeoutId = null,
     currentMode = 'register';
 
 // Ссылка на ваш бэкенд на Render (ОБЯЗАТЕЛЬНО БЕЗ слэша на конце)
-const BACKEND_URL = 'onrender.com'; 
+const BACKEND_URL = 'https://school-bd.onrender.com'; 
 
 themeBtn.addEventListener('click', () => {
     document.body.classList.toggle('light-theme');
