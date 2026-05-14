@@ -12,6 +12,9 @@ const deck = document.getElementById('main-deck'),
 let timeoutId = null,
     currentMode = 'register';
 
+// Ссылка на ваш бэкенд на Render (ОБЯЗАТЕЛЬНО БЕЗ слэша на конце)
+const BACKEND_URL = 'onrender.com'; 
+
 themeBtn.addEventListener('click', () => {
     document.body.classList.toggle('light-theme');
 });
@@ -102,56 +105,38 @@ customSelect.querySelectorAll('.option').forEach(option => {
 document.addEventListener('click', () => {
     customSelect.classList.remove('active');
 });
-// Вставьте сюда вашу ссылку, которую выдал localtunnel (ОБЯЗАТЕЛЬНО БЕЗ слэша на конце)
-const BACKEND_URL = 'https://school-bd.onrender.com'; 
 
+// ОБРАБОТЧИК КНОПКИ ПОДТВЕРДИТЬ (ДЁРГАЕМ ПИТОН)
 submitBtn.addEventListener('click', async (e) => {
-    e.preventDefault(); // Отменяем стандартную перезагрузку страницы
+    e.preventDefault(); // Отменяем стандартную отправку формы браузером
     
-    // Блокируем кнопку, чтобы пользователь не кликал много раз
+    // Блокируем кнопку на время запроса
     submitBtn.disabled = true;
     const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Отправка на ПК...';
+    submitBtn.textContent = 'Связь с сервером...';
 
-    // Собираем данные из инпутов (ищем по тексту в label)
-    const inputGroups = form.querySelectorAll('.input-group');
-    let userData = {
-        mode: deck.classList.contains('mode-login') ? 'Авторизация' : 'Регистрация',
-        name: '-',
-        surname: '-',
-        student_class: hiddenInput.value || '-', // Отправляем в Python как student_class
-        password: '-'
-    };
-
-    inputGroups.forEach(group => {
-        const label = group.querySelector('label');
-        const input = group.querySelector('input:not([type="hidden"])');
-        if (!label || !input) return;
+    try {
+        // Проверяем, в каком режиме находится карточка (Вход или Регистрация)
+        const endpoint = deck.classList.contains('mode-login') ? '/login' : '/register';
         
-        const labelText = label.textContent.toLowerCase();
-        if (labelText.includes('имя')) userData.name = input.value.trim();
-        if (labelText.includes('фамилия')) userData.surname = input.value.trim();
-        if (labelText.includes('пароль')) userData.password = input.value.trim();
-    });
+        // Отправляем обычный GET-запрос на ваш Render-сервер
+        const response = await fetch(`${BACKEND_URL}${endpoint}`);
 
-     try {
-        // Отправляем данные на глобальный HTTP-шлюз (обход любых блокировок портов)
-        await fetch('webhook.site', {
-            method: 'POST',
-            mode: 'no-cors', // Полностью отключает блокировки CORS браузером
-            headers: { 
-                'Content-Type': 'application/json' 
-            },
-            body: JSON.stringify(userData)
-        });
+        if (!response.ok) {
+            throw new Error(`Сервер ответил ошибкой: ${response.status}`);
+        }
 
-        alert('Запрос отправлен! Проверьте папку с Python-скриптом.');
-        homeBtn.click();
+        const data = await response.json();
+        console.log('Ответ от сервера:', data);
+        
+        alert('Питон-файл успешно дёрнулся!');
+        homeBtn.click(); // Возвращаем интерфейс на главный экран
         
     } catch (err) {
-        console.error(err);
-        alert('Ошибка отправки: ' + err.message);
+        console.error('Ошибка при дёргании сервера:', err);
+        alert('Не удалось достучаться до Python: ' + err.message);
     } finally {
+        // Возвращаем кнопку в исходное состояние
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
     }
